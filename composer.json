@@ -1,0 +1,31 @@
+{
+  "name": "hermesdj/seat-planetary-industry",
+  "description": "Provide additional tools to manage planetary industry for multiple accounts and work as a team in a corporation",
+  "license": "GPL-3.0-or-later",
+  "type": "seat-plugin",
+  "authors": [
+    {
+      "name": "Jays's",
+      "email": "jays.gaming.contact@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "HermesDj\\Seat\\SeatPlanetaryIndustry\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "recursivetree/seat-prices-core": "^1",
+    "eveseat/eveapi": "^5",
+    "eveseat/web": "^5"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "HermesDj\\Seat\\SeatPlanetaryIndustry\\SeatPlanetaryIndustryServiceProvider"
+      ]
+    }
+  }
+}
