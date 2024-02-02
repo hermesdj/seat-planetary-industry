@@ -1,0 +1,63 @@
+<div class="card">
+    <div class="card-header  d-flex align-items-center">
+        <button
+                type="button"
+                class="btn btn-primary mr-4"
+                data-toggle="modal"
+                data-target="#modalAssignPlanet"
+                @if(empty($assignedPlanets))
+                    disabled
+                @endif
+        >
+            <i class="fas fa-plus"></i>
+        </button>
+        <h3 class="card-title">{{trans('seat-pi::project.assigned_planets.title')}}</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm table-condensed table-striped table-hover" id="planetTable">
+            <thead>
+            <tr>
+                <th>{{trans_choice('web::seat.character', count($project->planets))}}</th>
+                <th>{{trans('web::seat.planet')}}</th>
+                <th class="text-right">{{trans('seat-pi::common.table.actions')}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($project->planets as $colony)
+                <tr>
+                    <td>
+                        @include('web::partials.character', ['character' => $colony->character])
+                    </td>
+                    <td>
+                        @include('web::partials.type', ['type_id' => $colony->planet->type->typeID, 'type_name' => ucwords($colony->planet->name)])
+                        &nbsp;
+                        ({{ucwords($colony->planet_type)}})
+                    </td>
+                    <td class="text-right">
+                        @include('seat-pi::includes.partials.actions.remove_btn', [
+                            'route' => route('seat-pi::remove-assigned-planet', ['id' => $project->id, 'character_planet_id' => $colony->id]),
+                            'tooltip' => trans('seat-pi::project.assigned_planets.modals.unassign.tooltip'),
+                            'title' => trans('seat-pi::project.assigned_planets.modals.unassign.title'),
+                            'notice' => trans('seat-pi::project.assigned_planets.modals.unassign.notice'),
+                            'icon' => 'fa-minus-square text-warning'
+                        ])
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@include('seat-pi::account.modals.assign_planet')
+
+@push('javascript')
+    <script type="text/javascript">
+        $(document).ready(() => {
+            $('#planetTable').DataTable({
+                searching: false,
+                paging: true,
+                pageLength: 10
+            });
+        });
+    </script>
+@endpush

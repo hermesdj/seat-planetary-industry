@@ -2,13 +2,13 @@
 
 namespace HermesDj\Seat\SeatPlanetaryIndustry\Helpers;
 
-use HermesDj\Seat\SeatPlanetaryIndustry\Models\PIUser;
-use Illuminate\Support\Facades\Auth;
+use HermesDj\Seat\SeatPlanetaryIndustry\Helpers\classes\ProjectOverview;
+use HermesDj\Seat\SeatPlanetaryIndustry\Models\Projects\Account\AccountProject;
 
 class PIHelper
 {
-    public static function getPiUser()
+    public static function computeProjectFabricationAndExtraction(AccountProject $project): ProjectOverview
     {
-        return PIUser::find(Auth::user()->id);
+        return ProjectOverview::fromAccountProject($project);
     }
 }

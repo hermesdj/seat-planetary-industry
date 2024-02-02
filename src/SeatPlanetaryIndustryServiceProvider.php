@@ -2,6 +2,19 @@
 
 namespace HermesDj\Seat\SeatPlanetaryIndustry;
 
+use HermesDj\Seat\SeatPlanetaryIndustry\Commands\Sde\PlanetarySdeCommand;
+use HermesDj\Seat\SeatPlanetaryIndustry\Commands\UniverseSchematicsCommand;
+use HermesDj\Seat\SeatPlanetaryIndustry\database\seeds\ScheduleSeeder;
+use HermesDj\Seat\SeatPlanetaryIndustry\database\seeds\TierInfoSeeder;
+use HermesDj\Seat\SeatPlanetaryIndustry\Http\Composers\AccountPiMenu;
+use HermesDj\Seat\SeatPlanetaryIndustry\Models\Projects\Planet\AccountAssignedPlanet;
+use HermesDj\Seat\SeatPlanetaryIndustry\Models\Schematic;
+use HermesDj\Seat\SeatPlanetaryIndustry\Models\TierInfo;
+use Seat\Eveapi\Models\Character\CharacterInfo;
+use Seat\Eveapi\Models\PlanetaryInteraction\CharacterPlanet;
+use Seat\Eveapi\Models\PlanetaryInteraction\CharacterPlanetContent;
+use Seat\Eveapi\Models\PlanetaryInteraction\CharacterPlanetPin;
+use Seat\Eveapi\Models\Sde\InvType;
 use Seat\Services\AbstractSeatPlugin;
 
 class SeatPlanetaryIndustryServiceProvider extends AbstractSeatPlugin
@@ -10,6 +23,8 @@ class SeatPlanetaryIndustryServiceProvider extends AbstractSeatPlugin
     {
         $this->add_routes();
 
+        $this->add_view_composers();
+
         $this->add_views();
 
         $this->add_translations();
@@ -17,11 +32,27 @@ class SeatPlanetaryIndustryServiceProvider extends AbstractSeatPlugin
         $this->add_publications();
 
         $this->add_migrations();
+
+        $this->add_commands();
+
+        $this->add_relations_resolver();
     }
 
     public function register(): void
     {
+        // Sidebar
         $this->mergeConfigFrom(__DIR__ . '/Config/package.sidebar.character.php', 'package.sidebar.character.entries');
+
+        // Menus
+        $this->mergeConfigFrom(__DIR__ . '/Config/seat-pi.account.menu.php', 'seat-pi.account.menu');
+
+        // Permissions
+        $this->registerPermissions(__DIR__ . '/Config/Permissions/corporation.php', 'corporation');
+
+        $this->registerDatabaseSeeders([
+            ScheduleSeeder::class,
+            TierInfoSeeder::class
+        ]);
     }
 
     private function add_routes(): void
@@ -48,11 +79,76 @@ class SeatPlanetaryIndustryServiceProvider extends AbstractSeatPlugin
             __DIR__ . '/resources/js' => public_path('web/js'),
         ], ['public', 'seat']);
         */
+        $this->publishes([
+            __DIR__ . '/resources/js' => public_path('web/js'),
+        ], ['public', 'seat']);
     }
 
     private function add_migrations(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
+    }
+
+    private function add_view_composers(): void
+    {
+        $this->app['view']->composer([
+            'seat-pi::account.includes.menu'
+        ], AccountPiMenu::class);
+    }
+
+    private function add_commands(): void
+    {
+        $this->commands([
+            PlanetarySdeCommand::class
+        ]);
+    }
+
+    private function add_relations_resolver(): void
+    {
+        CharacterPlanet::resolveRelationUsing('contents', function (CharacterPlanet $model) {
+            return $model->hasMany(CharacterPlanetContent::class, 'planet_id', 'planet_id');
+        });
+
+        CharacterPlanet::resolveRelationUsing('character', function (CharacterPlanet $model) {
+            return $model->belongsTo(CharacterInfo::class, 'character_id', 'character_id');
+        });
+
+        CharacterPlanetContent::resolveRelationUsing('pin', function (CharacterPlanetContent $model) {
+            return $model->belongsTo(CharacterPlanetPin::class, 'pin_id', 'pin_id');
+        });
+
+        CharacterPlanetContent::resolveRelationUsing('product', function (CharacterPlanetContent $model) {
+            return $model->hasOne(InvType::class, 'typeID', 'type_id')
+                ->withDefault();
+        });
+
+        CharacterPlanetPin::resolveRelationUsing('schematic', function (CharacterPlanetPin $model) {
+            return $model->hasOne(Schematic::class, 'schematic_id', 'schematic_id');
+        });
+
+        CharacterPlanetPin::resolveRelationUsing('character', function (CharacterPlanetPin $model) {
+            return $model->hasOne(CharacterInfo::class, 'character_id', 'character_id');
+        });
+
+        CharacterPlanetPin::resolveRelationUsing('colony', function (CharacterPlanetPin $model) {
+            return $model->hasOne(CharacterPlanet::class, 'planet_id', 'planet_id');
+        });
+
+        InvType::resolveRelationUsing('pi_tier', function (InvType $model) {
+            return $model->hasOne(TierInfo::class, 'market_group_id', 'marketGroupID');
+        });
+
+        InvType::resolveRelationUsing('schematic', function (InvType $model) {
+            return $model->hasOne(Schematic::class, 'type_id', 'typeID');
+        });
+
+        CharacterPlanet::resolveRelationUsing('assignedTo', function (CharacterPlanet $model) {
+            return $model->hasOne(AccountAssignedPlanet::class, 'character_planet_id', 'id');
+        });
+
+        CharacterInfo::resolveRelationUsing('assignedPlanets', function (CharacterInfo $model) {
+            return $model->through('colonies')->has('assignedTo');
+        });
     }
 
     public function getName(): string
