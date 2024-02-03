@@ -67,7 +67,7 @@
 @else
     @include('seat-pi::includes.modals.add_objective', ['route' => route('seat-pi::add-project-objective', ['project' => $project->id])])
 @endisset
-@include('seat-pi::includes.modals.edit_objective');
+@include('seat-pi::includes.modals.edit_objective')
 
 @push('javascript')
     <script type="text/javascript">
