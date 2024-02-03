@@ -22,9 +22,11 @@
                         @include('web::partials.character', ['character' => $factory->character])
                     </td>
                     <td>
-                        @include('web::partials.type', ['type_id' => $factory->colony->planet->type->typeID, 'type_name' => ucwords($factory->colony->planet->name)])
-                        &nbsp;
-                        ({{ucwords($factory->colony->planet_type)}})
+                        @if($factory->colony)
+                            @include('web::partials.type', ['type_id' => $factory->colony->planet->type->typeID, 'type_name' => ucwords($factory->colony->planet->name)])
+                            &nbsp;
+                            ({{ucwords($factory->colony->planet_type)}})
+                        @endif
                     </td>
                     <td>
                         {{$factory->nbFactories}}x&nbsp;

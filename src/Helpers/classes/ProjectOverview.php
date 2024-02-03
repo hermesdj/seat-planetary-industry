@@ -43,6 +43,47 @@ class ProjectOverview
         return $overview;
     }
 
+    private static function processSchematic($fabrications, $extractions, $schematic, $target_quantity): void
+    {
+        if ($target_quantity == 0 || is_infinite($target_quantity)) return;
+
+        $fabrication = new Fabrication();
+        if (!$fabrications->has($schematic->schematic_id)) {
+            $fabrication->schematic = $schematic;
+            $fabrication->tier = $schematic->tier;
+            $fabrications->put($schematic->schematic_id, $fabrication);
+        } else {
+            $fabrication = $fabrications->get($schematic->schematic_id);
+        }
+
+        $cyclePerHour = 3600 / $schematic->cycle_time;
+        $productionPerHour = ($schematic->tier->quantity_produced) * $cyclePerHour;
+        $factoriesNeeded = $target_quantity / $productionPerHour;
+        $productionNeeded = $productionPerHour * $factoriesNeeded;
+
+        $fabrication->factoriesNeeded += $factoriesNeeded;
+        $fabrication->productionNeeded += $productionNeeded;
+
+        foreach ($schematic->inputs as $input) {
+            $totalConsumption = $input->quantity_consumed * $factoriesNeeded * $cyclePerHour;
+            $invType = $input->invType;
+
+            if (isset($invType->schematic)) {
+                self::processSchematic($fabrications, $extractions, $invType->schematic, $totalConsumption);
+            } else {
+                $extraction = new Extraction();
+                if (!$extractions->has($input->input_type_id)) {
+                    $extraction->resource = $input->invType;
+                    $extractions->put($input->input_type_id, $extraction);
+                } else {
+                    $extraction = $extractions->get($input->input_type_id);
+                }
+
+                $extraction->extractionNeeded += $totalConsumption;
+            }
+        }
+    }
+
     private static function processColony(Collection $extractions, Collection $fabrications, CharacterPlanet $colony): void
     {
         foreach ($colony->extractors as $extractor) {
@@ -73,47 +114,6 @@ class ProjectOverview
                     $fabrication->actualFactories += 1;
                     $fabrication->actualProduction += $productionPerHour;
                 }
-            }
-        }
-    }
-
-    private static function processSchematic($fabrications, $extractions, $schematic, $target_quantity): void
-    {
-        if ($target_quantity == 0 || is_infinite($target_quantity)) return;
-
-        $fabrication = new Fabrication();
-        if (!$fabrications->has($schematic->schematic_id)) {
-            $fabrication->schematic = $schematic;
-            $fabrication->tier = $schematic->tier;
-            $fabrications->put($schematic->schematic_id, $fabrication);
-        } else {
-            $fabrication = $fabrications->get($schematic->schematic_id);
-        }
-
-        $cyclePerHour = 3600 / $schematic->cycle_time;
-        $productionPerHour = ($schematic->tier->quantity_produced) * $cyclePerHour;
-        $factoriesNeeded = $target_quantity / $productionPerHour;
-        $productionNeeded = $productionPerHour * $factoriesNeeded;
-
-        $fabrication->factoriesNeeded += $factoriesNeeded;
-        $fabrication->productionNeeded += $productionNeeded;
-
-        foreach ($schematic->inputs as $input) {
-            $totalConsumption = $input->quantity_consumed * $factoriesNeeded;
-            $invType = $input->invType;
-
-            if (isset($invType->schematic)) {
-                self::processSchematic($fabrications, $extractions, $invType->schematic, $totalConsumption);
-            } else {
-                $extraction = new Extraction();
-                if (!$extractions->has($input->input_type_id)) {
-                    $extraction->resource = $input->invType;
-                    $extractions->put($input->input_type_id, $extraction);
-                } else {
-                    $extraction = $extractions->get($input->input_type_id);
-                }
-
-                $extraction->extractionNeeded += $totalConsumption;
             }
         }
     }
