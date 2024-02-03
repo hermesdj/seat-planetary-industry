@@ -29,7 +29,6 @@
                 <tr>
                     <td>
                         @include('web::partials.type', ['type_id' => $objective->schematic->invtype->typeID, 'type_name' => ucwords($objective->schematic->schematic_name)])
-                        {{$objective->schematic->schematic_name}}
                     </td>
                     <td>{{$objective->target_quantity}}</td>
                     <td class="text-right">
