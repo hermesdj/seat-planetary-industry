@@ -3,13 +3,14 @@
 namespace HermesDj\Seat\SeatPlanetaryIndustry;
 
 use HermesDj\Seat\SeatPlanetaryIndustry\Commands\Sde\PlanetarySdeCommand;
-use HermesDj\Seat\SeatPlanetaryIndustry\Commands\UniverseSchematicsCommand;
 use HermesDj\Seat\SeatPlanetaryIndustry\database\seeds\ScheduleSeeder;
 use HermesDj\Seat\SeatPlanetaryIndustry\database\seeds\TierInfoSeeder;
 use HermesDj\Seat\SeatPlanetaryIndustry\Http\Composers\AccountPiMenu;
 use HermesDj\Seat\SeatPlanetaryIndustry\Models\Projects\Planet\AccountAssignedPlanet;
+use HermesDj\Seat\SeatPlanetaryIndustry\Models\Projects\Planet\CorporationAssignedPlanet;
 use HermesDj\Seat\SeatPlanetaryIndustry\Models\Schematic;
 use HermesDj\Seat\SeatPlanetaryIndustry\Models\TierInfo;
+use Illuminate\Support\Facades\Gate;
 use Seat\Eveapi\Models\Character\CharacterInfo;
 use Seat\Eveapi\Models\PlanetaryInteraction\CharacterPlanet;
 use Seat\Eveapi\Models\PlanetaryInteraction\CharacterPlanetContent;
@@ -42,12 +43,16 @@ class SeatPlanetaryIndustryServiceProvider extends AbstractSeatPlugin
     {
         // Sidebar
         $this->mergeConfigFrom(__DIR__ . '/Config/package.sidebar.character.php', 'package.sidebar.character.entries');
+        $this->mergeConfigFrom(__DIR__ . '/Config/package.sidebar.corporation.php', 'package.sidebar.corporation.entries');
+        //$this->mergeConfigFrom(__DIR__ . '/Config/package.sidebar.tools.php', 'package.sidebar.tools.entries');
 
         // Menus
         $this->mergeConfigFrom(__DIR__ . '/Config/seat-pi.account.menu.php', 'seat-pi.account.menu');
 
         // Permissions
+        Gate::define('pi.project.owner', 'HermesDj\Seat\SeatPlanetaryIndustry\Acl\AccountProjectPolicy@isOwner');
         $this->registerPermissions(__DIR__ . '/Config/Permissions/corporation.php', 'corporation');
+        $this->registerPermissions(__DIR__ . '/Config/Permissions/planetary.php', 'planetary');
 
         $this->registerDatabaseSeeders([
             ScheduleSeeder::class,
@@ -146,8 +151,16 @@ class SeatPlanetaryIndustryServiceProvider extends AbstractSeatPlugin
             return $model->hasOne(AccountAssignedPlanet::class, 'character_planet_id', 'id');
         });
 
+        CharacterPlanet::resolveRelationUsing('assignedToCorp', function (CharacterPlanet $model) {
+            return $model->hasOne(CorporationAssignedPlanet::class, 'character_planet_id', 'id');
+        });
+
         CharacterInfo::resolveRelationUsing('assignedPlanets', function (CharacterInfo $model) {
             return $model->through('colonies')->has('assignedTo');
+        });
+
+        CharacterInfo::resolveRelationUsing('corpAssignedPlanets', function (CharacterInfo $model) {
+            return $model->through('colonies')->has('assignedToCorp');
         });
     }
 

@@ -13,7 +13,7 @@
                     <ul></ul>
                 </div>
                 <form class="form-horizontal" id="formAssignPlanet" method="POST"
-                      action="{{route('seat-pi::assign-planet-to-project', ['id' => $project->id])}}">
+                      action="{{$route}}">
                     @csrf
                     <div class="form-group row">
                         <label for="character_planet_id" class="col-sm-3 col-form-label">

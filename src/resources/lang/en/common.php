@@ -2,11 +2,10 @@
 
 return [
     'menu' => [
-        'name' => 'Account PI',
-        'label' => 'Account PI',
         'extractors' => 'Extractors',
         'factories' => 'Factories',
-        'projects' => 'Projects'
+        'projects' => 'Projects',
+        'planets' => 'Planets'
     ],
     'cycle' => [
         'quantity_header' => 'Qty/Cycle',
@@ -17,8 +16,17 @@ return [
         'headers' => [
             'tier' => 'Tier',
             'consumes' => 'Consumes',
-            'produces' => 'Produces'
+            'produces' => 'Produces',
+            'factory' => 'Factory'
         ]
+    ],
+    'planet' => [
+        'headers' => [
+            'assignedTo' => 'Assigned To Project',
+            'content' => 'Content'
+        ],
+        'assignedToCorp' => 'Planet is assigned to corporation :corp project :name !',
+        'assignedTo' => 'This planet is assigned to your personal project :name'
     ],
     'btns' => [
         'cancel' => 'Cancel',

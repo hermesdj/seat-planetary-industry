@@ -3,7 +3,9 @@
 namespace HermesDj\Seat\SeatPlanetaryIndustry\Helpers\classes;
 
 use HermesDj\Seat\SeatPlanetaryIndustry\Models\Projects\Account\AccountProject;
+use HermesDj\Seat\SeatPlanetaryIndustry\Models\Projects\Corporation\CorporationProject;
 use Illuminate\Support\Collection;
+use Seat\Eveapi\Models\PlanetaryInteraction\CharacterPlanet;
 use Seat\Eveapi\Models\PlanetaryInteraction\CharacterPlanetPin;
 
 class ProjectOverview
@@ -13,45 +15,25 @@ class ProjectOverview
 
     public static function fromAccountProject(AccountProject $project): ProjectOverview
     {
+        return self::process($project->objectives, $project->planets);
+    }
+
+    public static function fromCorporationProject(CorporationProject $project): ProjectOverview
+    {
+        return self::process($project->objectives, $project->planets);
+    }
+
+    private static function process(Collection $objectives, Collection $planets): ProjectOverview
+    {
         $fabrications = collect();
         $extractions = collect();
 
-        foreach ($project->objectives as $objective) {
-            $schematic = $objective->schematic;
-            self::processSchematic($fabrications, $extractions, $schematic, $objective->target_quantity);
+        foreach ($objectives as $objective) {
+            self::processSchematic($fabrications, $extractions, $objective->schematic, $objective->target_quantity);
         }
 
-        foreach ($project->planets as $colony) {
-            foreach ($colony->extractors as $extractor) {
-                $product = $extractor->product;
-                if ($extractions->has($extractor->product_type_id)) {
-                    $extraction = $extractions->get($extractor->product_type_id);
-                    $cyclesPerHours = $extractor->cycle_time / 3600;
-                    $quantityPerHour = $cyclesPerHours * $extractor->qty_per_cycle;
-
-                    $extraction->actualExtraction += $quantityPerHour;
-                } else {
-                    logger()->debug("Extraction not found for product $product->typeName");
-                }
-            }
-
-            $pins = CharacterPlanetPin::where('character_id', $colony->character_id)
-                ->where('planet_id', $colony->planet_id)->get();
-
-            foreach ($pins as $pin) {
-                if (isset($pin->schematic_id)) {
-                    if ($fabrications->has($pin->schematic_id)) {
-                        $fabrication = $fabrications->get($pin->schematic_id);
-
-                        $schematic = $pin->schematic;
-                        $cyclePerHour = 3600 / $schematic->cycle_time;
-                        $productionPerHour = ($schematic->tier->quantity_produced) * $cyclePerHour;
-
-                        $fabrication->actualFactories += 1;
-                        $fabrication->actualProduction += $productionPerHour;
-                    }
-                }
-            }
+        foreach ($planets as $colony) {
+            self::processColony($extractions, $fabrications, $colony);
         }
 
         $overview = new ProjectOverview();
@@ -61,7 +43,41 @@ class ProjectOverview
         return $overview;
     }
 
-    public static function processSchematic($fabrications, $extractions, $schematic, $target_quantity): void
+    private static function processColony(Collection $extractions, Collection $fabrications, CharacterPlanet $colony): void
+    {
+        foreach ($colony->extractors as $extractor) {
+            $product = $extractor->product;
+            if ($extractions->has($extractor->product_type_id)) {
+                $extraction = $extractions->get($extractor->product_type_id);
+                $cyclesPerHours = $extractor->cycle_time / 3600;
+                $quantityPerHour = $cyclesPerHours * $extractor->qty_per_cycle;
+
+                $extraction->actualExtraction += $quantityPerHour;
+            } else {
+                logger()->debug("Extraction not found for product $product->typeName");
+            }
+        }
+
+        $pins = CharacterPlanetPin::where('character_id', $colony->character_id)
+            ->where('planet_id', $colony->planet_id)->get();
+
+        foreach ($pins as $pin) {
+            if (isset($pin->schematic_id)) {
+                if ($fabrications->has($pin->schematic_id)) {
+                    $fabrication = $fabrications->get($pin->schematic_id);
+
+                    $schematic = $pin->schematic;
+                    $cyclePerHour = 3600 / $schematic->cycle_time;
+                    $productionPerHour = ($schematic->tier->quantity_produced) * $cyclePerHour;
+
+                    $fabrication->actualFactories += 1;
+                    $fabrication->actualProduction += $productionPerHour;
+                }
+            }
+        }
+    }
+
+    private static function processSchematic($fabrications, $extractions, $schematic, $target_quantity): void
     {
         if ($target_quantity == 0 || is_infinite($target_quantity)) return;
 

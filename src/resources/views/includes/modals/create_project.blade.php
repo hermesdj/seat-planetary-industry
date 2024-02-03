@@ -13,7 +13,7 @@
                     <ul></ul>
                 </div>
                 <form class="form-horizontal" id="formCreateProject" method="POST"
-                      action="{{route('seat-pi::create-account-pi-project')}}">
+                      action="{{$route}}">
                     @csrf
                     <div class="form-group row">
                         <label for="name" class="col-sm-3 col-form-label">

@@ -1,9 +1,18 @@
 <div class="card">
     <div class="card-header d-flex align-items-center">
-        <button type="button" class="btn btn-primary mr-4" data-toggle="modal"
-                data-target="#modalCreateProject">
-            <i class="fas fa-plus"></i>
-        </button>
+        @isset($corporation)
+            @can('corporation.manage_pi_projects', $corporation)
+                <button type="button" class="btn btn-primary mr-4" data-toggle="modal"
+                        data-target="#modalCreateProject">
+                    <i class="fas fa-plus"></i>
+                </button>
+            @endcan
+        @else
+            <button type="button" class="btn btn-primary mr-4" data-toggle="modal"
+                    data-target="#modalCreateProject">
+                <i class="fas fa-plus"></i>
+            </button>
+        @endisset
         <div class="card-title">
             {{trans('seat-pi::common.menu.projects')}}
         </div>
@@ -16,7 +25,7 @@
         @endif
         @foreach($projects as $project)
             <a
-                    href="{{route('seat-pi::view-account-pi-project', ['id' => $project->id])}}"
+                    href="{{isset($corporation) ? route('seat-pi::corporation-pi-project', ['corporation' => $corporation->corporation_id, 'project' => $project->id]) : route('seat-pi::view-account-pi-project', ['project' => $project->id])}}"
                     class="list-group-item list-group-item-action @if(isset($displayedProject) && $displayedProject->id === $project->id) active @endif"
             >
                 <div class="d-flex w-100 justify-content-between">
@@ -31,4 +40,8 @@
         @endforeach
     </div>
 </div>
-@include('seat-pi::account.modals.create_project')
+@isset($corporation)
+    @include('seat-pi::includes.modals.create_project', ['route' => route('seat-pi::create-corporation-pi-project', ['corporation' => $corporation->corporation_id])])
+@else
+    @include('seat-pi::includes.modals.create_project', ['route' => route('seat-pi::create-account-pi-project')])
+@endif

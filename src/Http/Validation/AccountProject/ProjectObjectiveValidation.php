@@ -4,7 +4,7 @@ namespace HermesDj\Seat\SeatPlanetaryIndustry\Http\Validation\AccountProject;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AssignPlanetToProjectValidation extends FormRequest
+class ProjectObjectiveValidation extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,7 +14,8 @@ class AssignPlanetToProjectValidation extends FormRequest
     public function rules(): array
     {
         return [
-            'character_planet_id' => ['integer']
+            'schematic_id' => ['integer'],
+            'target_quantity' => ['integer'],
         ];
     }
 }

@@ -4,13 +4,25 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h3 class="card-title flex-grow-1">{{$project->name}}</h3>
                 <div>
-                    @include('seat-pi::includes.partials.actions.edit_project')
-                    @include('seat-pi::includes.partials.actions.remove_btn', [
-                        'route' => route('seat-pi::delete-account-pi-project', ['id' => $project->id]),
-                        'tooltip' => trans('seat-pi::project.modals.delete.tooltip'),
-                        'title' => trans('seat-pi::project.modals.delete.title'),
-                        'notice' => trans('seat-pi::project.modals.delete.notice'),
-                    ])
+                    @isset($corporation)
+                        @can('corporation.manage_pi_projects', $corporation)
+                            @include('seat-pi::includes.partials.actions.edit_project')
+                            @include('seat-pi::includes.partials.actions.remove_btn', [
+                                'route' => route('seat-pi::delete-corporation-pi-project', ['corporation' => $corporation->corporation_id, 'project' => $project->id]),
+                                'tooltip' => trans('seat-pi::project.modals.delete.tooltip'),
+                                'title' => trans('seat-pi::project.modals.delete.title'),
+                                'notice' => trans('seat-pi::project.modals.delete.notice'),
+                            ])
+                        @endcan
+                    @else
+                        @include('seat-pi::includes.partials.actions.edit_project')
+                        @include('seat-pi::includes.partials.actions.remove_btn', [
+                            'route' => route('seat-pi::delete-account-pi-project', ['project' => $project->id]),
+                            'tooltip' => trans('seat-pi::project.modals.delete.tooltip'),
+                            'title' => trans('seat-pi::project.modals.delete.title'),
+                            'notice' => trans('seat-pi::project.modals.delete.notice'),
+                        ])
+                    @endisset
                 </div>
             </div>
             <div class="card-body">
@@ -20,7 +32,11 @@
             </div>
         </div>
     </div>
-    @include('seat-pi::account.modals.edit_project')
+    @isset($corporation)
+        @include('seat-pi::includes.modals.edit_project', ['route' => route('seat-pi::edit-corporation-pi-project', ['corporation' => $corporation->corporation_id, 'project' => $project->id])])
+    @else
+        @include('seat-pi::includes.modals.edit_project', ['route' => route('seat-pi::edit-account-pi-project', ['project' => $project->id])])
+    @endisset
     <div class="col-md-6">
         @include('seat-pi::includes.project.objectives')
     </div>

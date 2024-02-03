@@ -1,10 +1,10 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="modalEditObjective">
+<div class="modal fade" tabindex="-1" role="dialog" id="modalAddObjective">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-orange">
                 <h4 class="modal-title">
                     <i class="fas fa-space-shuttle">
-                        {{trans('seat-pi::project.objectives.modals.edit.title')}}
+                        {{trans('seat-pi::project.objectives.modals.create.title')}}
                     </i>
                 </h4>
             </div>
@@ -12,17 +12,41 @@
                 <div class="modal-errors alert alert-danger d-none">
                     <ul></ul>
                 </div>
-                <form class="form-horizontal" id="formEditObjective" method="POST"
-                      action="">
+                <form class="form-horizontal" id="formAddObjective" method="POST"
+                      action="{{$route}}">
                     @csrf
                     <div class="form-group row">
-                        <label for="edit_target_quantity" class="col-sm-3 col-form-label">
+                        <label for="schematic_id" class="col-sm-3 col-form-label">
+                            {{trans('seat-pi::project.objectives.fields.schematic.label')}}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-sm-9">
+                            <select
+                                    id="schematic_id"
+                                    class="form-control"
+                                    name="schematic_id"
+                            >
+                                <option disabled selected value>--</option>
+                                @foreach($tiers as $tier)
+                                    @if(!$tier->schematics->isEmpty())
+                                        <optgroup label="Tier {{$tier->tier_id}}">
+                                            @foreach($tier->schematics->sortBy('schematic_name') as $schematic)
+                                                <option value="{{$schematic->schematic_id}}">{{$schematic->schematic_name}}</option>
+                                            @endforeach
+                                        </optgroup>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="target_quantity" class="col-sm-3 col-form-label">
                             {{trans('seat-pi::project.objectives.fields.target_quantity.label')}}
                             <span class="text-danger">*</span>
                         </label>
                         <div class="col-sm-9">
                             <select
-                                    id="edit_target_quantity"
+                                    id="target_quantity"
                                     class="form-control"
                                     name="target_quantity"
                             >
@@ -39,8 +63,6 @@
                         </button>
                     </div>
                 </form>
-                <input type="hidden" name="current_quantity" id="edit_current_quantity"/>
-                <input type="hidden" name="schematic_id" id="edit_schematic_id"/>
             </div>
         </div>
     </div>
@@ -62,12 +84,16 @@
                     }
                 }
             }
-            const targetQuantitySelect = $('#edit_target_quantity');
-            const editModal = $('#modalEditObjective');
 
-            editModal.on('show.bs.modal', function () {
-                const schematicId = parseInt($('#edit_schematic_id').val());
-                const currentQuantity = parseInt($('#edit_current_quantity').val());
+            const schematicSelect = $('#schematic_id');
+            const targetQuantitySelect = $('#target_quantity');
+
+            function updateTargetQuantitySelect() {
+                targetQuantitySelect.val(null);
+            }
+
+            schematicSelect.on('change', function () {
+                const schematicId = parseInt($(this).val());
 
                 if (schematicMap.has(schematicId)) {
                     const schematic = schematicMap.get(schematicId);
@@ -76,10 +102,7 @@
 
                     for (let i = schematic.tier.quantity_produced; i <= schematic.tier.quantity_produced * 100; i += schematic.tier.quantity_produced) {
                         const value = (i / ((schematic.cycle_time) / 3600));
-                        targetQuantitySelect.append($('<option></option>')
-                            .attr('value', value)
-                            .attr('selected', value === currentQuantity)
-                            .text(value + '/h'));
+                        targetQuantitySelect.append($('<option></option>').attr('value', value).text(value + '/h'));
                     }
                 } else {
                     console.warn('Unknown schematic id selected', schematicId);
@@ -88,4 +111,3 @@
         });
     </script>
 @endpush
-

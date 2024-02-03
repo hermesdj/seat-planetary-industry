@@ -1,11 +1,16 @@
 <div class="card">
     <div class="card-header  d-flex align-items-center">
+        @isset($corporation)
+
+        @else
+
+        @endisset
         <button
                 type="button"
                 class="btn btn-primary mr-4"
                 data-toggle="modal"
                 data-target="#modalAssignPlanet"
-                @if(empty($assignedPlanets))
+                @if(empty($unassignedPlanets))
                     disabled
                 @endif
         >
@@ -34,13 +39,25 @@
                         ({{ucwords($colony->planet_type)}})
                     </td>
                     <td class="text-right">
-                        @include('seat-pi::includes.partials.actions.remove_btn', [
-                            'route' => route('seat-pi::remove-assigned-planet', ['id' => $project->id, 'character_planet_id' => $colony->id]),
-                            'tooltip' => trans('seat-pi::project.assigned_planets.modals.unassign.tooltip'),
-                            'title' => trans('seat-pi::project.assigned_planets.modals.unassign.title'),
-                            'notice' => trans('seat-pi::project.assigned_planets.modals.unassign.notice'),
-                            'icon' => 'fa-minus-square text-warning'
-                        ])
+                        @isset($corporation)
+                            @canany(['corporation.assign_pi_planet', 'corporation.admin_pi_planet'], $colony, $corporation)
+                                @include('seat-pi::includes.partials.actions.remove_btn', [
+                                    'route' => route('seat-pi::unassign-corp-pi-project-planet', ['corporation' => $corporation->corporation_id, 'project' => $project->id, 'planet' => $colony->id]),
+                                    'tooltip' => trans('seat-pi::project.assigned_planets.modals.unassign.tooltip'),
+                                    'title' => trans('seat-pi::project.assigned_planets.modals.unassign.title'),
+                                    'notice' => trans('seat-pi::project.assigned_planets.modals.unassign.notice'),
+                                    'icon' => 'fa-minus-square text-warning'
+                                ])
+                            @endcan
+                        @else
+                            @include('seat-pi::includes.partials.actions.remove_btn', [
+                                'route' => route('seat-pi::remove-assigned-planet', ['project' => $project->id, 'planet' => $colony->id]),
+                                'tooltip' => trans('seat-pi::project.assigned_planets.modals.unassign.tooltip'),
+                                'title' => trans('seat-pi::project.assigned_planets.modals.unassign.title'),
+                                'notice' => trans('seat-pi::project.assigned_planets.modals.unassign.notice'),
+                                'icon' => 'fa-minus-square text-warning'
+                            ])
+                        @endisset
                     </td>
                 </tr>
             @endforeach
@@ -48,7 +65,15 @@
         </table>
     </div>
 </div>
-@include('seat-pi::account.modals.assign_planet')
+@isset($corporation)
+    @include('seat-pi::includes.modals.assign_planet', [
+        'route' => route('seat-pi::assign-corp-pi-project-planet', ['corporation' => $corporation->corporation_id, 'project' => $project->id])
+    ])
+@else
+    @include('seat-pi::includes.modals.assign_planet', [
+        'route' => route('seat-pi::assign-planet-to-project', ['project' => $project->id])
+    ])
+@endisset
 
 @push('javascript')
     <script type="text/javascript">

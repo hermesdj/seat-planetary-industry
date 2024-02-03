@@ -8,7 +8,7 @@
             <tr>
                 <th>{{trans_choice('web::seat.character', 2)}}</th>
                 <th>{{trans('web::seat.planet')}}</th>
-                <th>{{ trans('web::seat.product') }}</th>
+                <th>{{ trans('seat-pi::common.factory.headers.factory') }}</th>
                 <th>{{ trans('seat-pi::common.factory.headers.tier') }}</th>
                 <th>{{ trans('seat-pi::common.factory.headers.consumes') }}</th>
                 <th>{{ trans('seat-pi::common.factory.headers.produces') }}</th>
@@ -31,7 +31,7 @@
                         <img alt="Item image"
                              src="https://images.evetech.net/types/{{$factory->schematic->type_id}}/icon?size=32"/>
 
-                        {{$factory->schematic->invType->typeName}}
+                        {{$factory->schematic->invType->typeName}} {{ trans('seat-pi::common.factory.headers.factory') }}
                     </td>
                     <td>
                         {{$factory->schematic->tier->tier_id}}

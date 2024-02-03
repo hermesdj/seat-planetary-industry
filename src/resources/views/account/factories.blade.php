@@ -3,6 +3,6 @@
 @section('page_header', trans('seat-pi::account.page.header'))
 
 @section('seat-pi-content')
-    @include('seat-pi::includes.factories')
+    @include('seat-pi::account.includes.factories')
 @endsection
 

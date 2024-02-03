@@ -1,0 +1,1 @@
+@extends('seat-pi::survey.layouts.layout')

@@ -16,6 +16,13 @@ return [
         'highlight_view' => 'factories'
     ],
     [
+        'name' => 'planets',
+        'label' => 'seat-pi::common.menu.planets',
+        'route' => 'seat-pi::account-pi-planets',
+        'permission' => 'character.planetary',
+        'highlight_view' => 'planets'
+    ],
+    [
         'name' => 'projects',
         'label' => 'seat-pi::common.menu.projects',
         'route' => 'seat-pi::account-pi-projects',

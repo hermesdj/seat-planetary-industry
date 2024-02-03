@@ -1,9 +1,18 @@
 <div class="card">
     <div class="card-header d-flex align-items-center">
-        <button type="button" class="btn btn-primary mr-4" data-toggle="modal"
-                data-target="#modalAddObjective">
-            <i class="fas fa-plus"></i>
-        </button>
+        @isset($corporation)
+            @can('corporation.manage_pi_objectives', $corporation)
+                <button type="button" class="btn btn-primary mr-4" data-toggle="modal"
+                        data-target="#modalAddObjective">
+                    <i class="fas fa-plus"></i>
+                </button>
+            @endcan
+        @else
+            <button type="button" class="btn btn-primary mr-4" data-toggle="modal"
+                    data-target="#modalAddObjective">
+                <i class="fas fa-plus"></i>
+            </button>
+        @endisset
         <h3 class="card-title">{{trans('seat-pi::project.objectives.title')}}</h3>
     </div>
     <div class="card-body">
@@ -24,15 +33,29 @@
                     </td>
                     <td>{{$objective->target_quantity}}</td>
                     <td class="text-right">
-                        @include('seat-pi::includes.partials.actions.edit_objective_target', [
-                            'route' => route('seat-pi::edit-project-objective', ['id' => $project->id, 'schematic_id' => $objective->schematic_id]),
-                            'targetQuantity' => $objective->target_quantity,
-                            'schematic_id' => $objective->schematic_id
-                        ])
-                        @include('seat-pi::includes.partials.actions.remove_btn', [
-                            'route' => route('seat-pi::remove-project-objective', ['id' => $project->id, 'schematic_id' => $objective->schematic_id]),
-                            'tooltip' => trans('seat-pi::project.objectives.modals.delete.btn')
-                        ])
+                        @isset($corporation)
+                            @can('corporation.manage_pi_objectives', $corporation)
+                                @include('seat-pi::includes.partials.actions.edit_objective_target', [
+                                    'route' => route('seat-pi::edit-corp-pi-project-objective', ['corporation' => $corporation->corporation_id, 'project' => $project->id, 'schematic_id' => $objective->schematic_id]),
+                                    'targetQuantity' => $objective->target_quantity,
+                                    'schematic_id' => $objective->schematic_id
+                                ])
+                                @include('seat-pi::includes.partials.actions.remove_btn', [
+                                    'route' => route('seat-pi::remove-corp-pi-project-objective', ['corporation' => $corporation->corporation_id, 'project' => $project->id, 'schematic_id' => $objective->schematic_id]),
+                                    'tooltip' => trans('seat-pi::project.objectives.modals.delete.btn')
+                                ])
+                            @endcan
+                        @else
+                            @include('seat-pi::includes.partials.actions.edit_objective_target', [
+                                'route' => route('seat-pi::edit-project-objective', ['project' => $project->id, 'schematic_id' => $objective->schematic_id]),
+                                'targetQuantity' => $objective->target_quantity,
+                                'schematic_id' => $objective->schematic_id
+                            ])
+                            @include('seat-pi::includes.partials.actions.remove_btn', [
+                                'route' => route('seat-pi::remove-project-objective', ['project' => $project->id, 'schematic_id' => $objective->schematic_id]),
+                                'tooltip' => trans('seat-pi::project.objectives.modals.delete.btn')
+                            ])
+                        @endisset
                     </td>
                 </tr>
             @endforeach
@@ -40,8 +63,12 @@
         </table>
     </div>
 </div>
-@include('seat-pi::account.modals.add_objective')
-@include('seat-pi::account.modals.edit_objective')
+@isset($corporation)
+    @include('seat-pi::includes.modals.add_objective', ['route' => route('seat-pi::add-corp-pi-project-objective', ['corporation' => $corporation->corporation_id, 'project' => $project->id])])
+@else
+    @include('seat-pi::includes.modals.add_objective', ['route' => route('seat-pi::add-project-objective', ['project' => $project->id])])
+@endisset
+@include('seat-pi::includes.modals.edit_objective');
 
 @push('javascript')
     <script type="text/javascript">

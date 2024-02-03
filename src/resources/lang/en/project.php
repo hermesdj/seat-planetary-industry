@@ -2,6 +2,9 @@
 
 return [
     'no_description' => 'No project description',
+    'permissions' => [
+        'deny' => 'You are not allowed to view this project !'
+    ],
     'fields' => [
         'name' => [
             'label' => 'Project Name',
