@@ -1,25 +1,30 @@
 <?php
 
-use HermesDj\Seat\SeatPlanetaryIndustry\Commands\Sde\PlanetarySdeCommand;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 
 class AddSchematicForeignToPin extends Migration
 {
+    /**
+     * @throws Exception
+     */
     public function up(): void
     {
-        $command = new PlanetarySdeCommand();
+        // Need to populate the schematics table before creating the foreign key
+        $exitCode = Artisan::call('eve:update:sde:planetary');
 
-        // Need to populate the schematics table before creating the foreign constraint
-        $command->handle();
-
-        Schema::table('character_planet_pins', function (Blueprint $table) {
-            $table->foreign('schematic_id')
-                ->references('schematic_id')
-                ->on('universe_schematics')
-                ->noActionOnDelete();
-        });
+        if ($exitCode == 0) {
+            Schema::table('character_planet_pins', function (Blueprint $table) {
+                $table->foreign('schematic_id')
+                    ->references('schematic_id')
+                    ->on('universe_schematics')
+                    ->noActionOnDelete();
+            });
+        } else {
+            throw new Exception("Could not sync schematics table");
+        }
     }
 
     public function down(): void
