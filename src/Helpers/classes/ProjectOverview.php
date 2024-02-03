@@ -49,7 +49,7 @@ class ProjectOverview
             $product = $extractor->product;
             if ($extractions->has($extractor->product_type_id)) {
                 $extraction = $extractions->get($extractor->product_type_id);
-                $cyclesPerHours = $extractor->cycle_time / 3600;
+                $cyclesPerHours = 3600 / $extractor->cycle_time;
                 $quantityPerHour = $cyclesPerHours * $extractor->qty_per_cycle;
 
                 $extraction->actualExtraction += $quantityPerHour;

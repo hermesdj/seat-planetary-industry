@@ -14,6 +14,7 @@
                 <th>{{ trans('web::seat.expiry') }}</th>
                 <th>{{ trans('seat-pi::common.cycle.header') }}</th>
                 <th>{{ trans('seat-pi::common.cycle.quantity_header') }}</th>
+                <th>{{ trans('seat-pi::common.cycle.quantity_per_hour') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -51,6 +52,9 @@
                             </td>
                             <td>
                                 {{$extractor->qty_per_cycle}}
+                            </td>
+                            <td>
+                                {{(3600 / $extractor->cycle_time) * $extractor->qty_per_cycle}}
                             </td>
                         </tr>
                     @endforeach

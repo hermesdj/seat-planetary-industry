@@ -10,7 +10,8 @@ return [
     'cycle' => [
         'quantity_header' => 'Qté/Cycle',
         'header' => 'Temps de Cycle',
-        'time' => ':time Secondes'
+        'time' => ':time Secondes',
+        'quantity_per_hour' => 'Qté/Heure'
     ],
     'factory' => [
         'headers' => [
