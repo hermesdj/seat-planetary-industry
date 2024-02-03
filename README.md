@@ -1,17 +1,34 @@
-Idées de plugin Industrie Planétaire :
+# SeAT Planetary Industry plugin
 
-- Fiche Personnages qui fait un Overview de toute la PI en cours sur tous les personnages
-- DB de données sur les planètes comme le fichier google doc mais enregistré dans SeAT (Section outils ?)
+Planetary Industry plugin for EVE SeAT
 
+# Features
 
-Data DB :
-1320,,Planetary Infrastructure,Capsuleers can exploit the planetary resources of New Eden by establishing command centers on the ground and orbital infrastructure in space
-1322,1320,Command Centers,A Command Center is required to extract resources from a planet
-1332,533,Planetary Materials,Materials sourced from planets
-1333,1332,Raw Planetary Materials,The first tier of planetary materials.
-1334,1332,Processed Planetary Materials,The second tier of planetary materials.
-1335,1332,Refined Planetary Materials,The third tier of planetary materials.
-1336,1332,Specialized Planetary Materials,The fourth tier of planetary materials.
-1337,1332,Advanced Planetary Materials,The firth and final tier of planetary materials.
-1410,1320,Orbital Infrastructure,Gives capsuleers stronger control over a planet's resources
-1823,150,Planet Management,Skills required for the control and remote operation of planetary colonies
+* View all your characters planets, extractors and factories regrouped in one page (Menu Characters > Account PI)
+* Create Planetary Industry Project, define production goals, assign planets and see what production is needed !
+* Create Planetary Industry Projects for your corporation and help your corp mate identify what they need to produce
+
+# Release
+
+https://packagist.org/packages/hermesdj/seat-planetary-industry
+
+# Compatibility
+
+| SeAT Core | Planetary Industry | Branch                                                                    |
+|-----------|--------------------|---------------------------------------------------------------------------|
+| 5.x       | 1.x                | [master](https://github.com/hermesdj/seat-planetary-industry/tree/master) |
+
+# Installation
+
+Add hermesdj/seat-planetary-industry to your installed plugin list.
+
+* `php artisan eve:update:sde:planetary` in the SeAT root directory
+
+This is required to sync the planetary industry factory schematics once with the SDE. It should run once a month after
+that automatically.
+
+# Feedbacks or support
+
+@jaysgaming2023 on eve-seat discord  
+jays.gaming.contact@gmail.com
+Jay Fendragon/Kyra Skeako in game
