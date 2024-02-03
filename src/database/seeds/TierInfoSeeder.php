@@ -26,7 +26,7 @@ class TierInfoSeeder extends Seeder
         [
             'tier_id' => 3,
             'market_group_id' => 1336,
-            'quantity_produced' => 6
+            'quantity_produced' => 3
         ],
         [
             'tier_id' => 4,
