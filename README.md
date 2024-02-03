@@ -32,3 +32,27 @@ that automatically.
 @jaysgaming2023 on eve-seat discord  
 jays.gaming.contact@gmail.com
 Jay Fendragon/Kyra Skeako in game
+
+# Screenshots
+
+## Account Planetary Industry
+
+### Extractors View
+
+![Extractors](./img/account_extractors.png "Account Extractors")
+
+### Factories View
+
+![Factories](./img/account_factories.png "Account Factories")
+
+### Planets View
+
+![Planets](./img/account_planets.png "Account Planets")
+
+Assigned to allows you to see to which project a planet is assigned. A planet can only be assigned to one project (corp
+or personal)
+
+### Projects View
+
+![Project Top](./img/account_project_1.png "Project Top")
+![Project Bottom](./img/account_project_2.png "Project Bottom")
