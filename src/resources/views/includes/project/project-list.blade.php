@@ -33,9 +33,6 @@
                         {{$project->name}}
                     </h6>
                 </div>
-                <p class="mb-1">
-                    {{$project->description ?? trans('seat-pi::project.no_description')}}
-                </p>
             </a>
         @endforeach
     </div>

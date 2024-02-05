@@ -45,7 +45,8 @@
         $(document).ready(() => {
             $('#fabricationTable').DataTable({
                 searching: false,
-                paging: false
+                paging: false,
+                order: [1, 'desc']
             });
         });
     </script>

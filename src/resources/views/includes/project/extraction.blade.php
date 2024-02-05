@@ -35,7 +35,8 @@
         $(document).ready(() => {
             $('#extractionTable').DataTable({
                 searching: false,
-                paging: false
+                paging: false,
+                order: [1, 'desc']
             });
         });
     </script>
