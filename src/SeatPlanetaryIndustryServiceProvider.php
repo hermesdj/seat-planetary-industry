@@ -111,7 +111,8 @@ class SeatPlanetaryIndustryServiceProvider extends AbstractSeatPlugin
     private function add_relations_resolver(): void
     {
         CharacterPlanet::resolveRelationUsing('contents', function (CharacterPlanet $model) {
-            return $model->hasMany(CharacterPlanetContent::class, 'planet_id', 'planet_id');
+            return $model->hasMany(CharacterPlanetContent::class, 'planet_id', 'planet_id')
+                ->where('character_id', $model->character_id);
         });
 
         CharacterPlanet::resolveRelationUsing('character', function (CharacterPlanet $model) {
