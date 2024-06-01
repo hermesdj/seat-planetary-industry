@@ -18,7 +18,6 @@
                     'type_id' => $factory->schematic->type_id,
                     'type_name' => $factory->schematic->invType->typeName
                 ])
-                {{$factory->schematic_id}}
             </td>
             <td>{{$factory->nbFactories}}</td>
             <td>
