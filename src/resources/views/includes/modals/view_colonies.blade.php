@@ -32,7 +32,7 @@
                 @endforeach
                 @foreach($colony->factories as $factory)
                     @if($factory->schematic->type_id == $resource->typeID)
-                        @if(Carbon\Carbon::parse($factory->maxLastCycleStart)->gte(Carbon\Carbon::now()->addSeconds($factory->schematic->cycle_time)) )
+                        @if(Carbon\Carbon::parse($factory->maxLastCycleStart)->addSeconds($factory->schematic->cycle_time)->gte(Carbon\Carbon::now()->subDays(7)))
                             {{trans('seat-pi::common.cycle.active')}}
                         @else
                             {{trans('seat-pi::common.cycle.not_active')}}

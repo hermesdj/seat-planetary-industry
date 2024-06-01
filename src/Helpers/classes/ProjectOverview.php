@@ -135,7 +135,7 @@ class ProjectOverview
                     $expiryTime = Carbon::parse($pin->last_cycle_start)->addSeconds($pin->schematic->cycle_time);
                     $fabrication->actualFactories += 1;
 
-                    if ($expiryTime->gte($now)) {
+                    if ($expiryTime->gte($now->subDays(7))) {
                         $schematic = $pin->schematic;
                         $cyclePerHour = 3600 / $schematic->cycle_time;
                         $productionPerHour = ($schematic->tier->quantity_produced) * $cyclePerHour;

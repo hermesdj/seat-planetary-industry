@@ -145,7 +145,7 @@ class SeatPlanetaryIndustryServiceProvider extends AbstractSeatPlugin
             return $model->hasMany(CharacterPlanetPin::class, 'planet_id', 'planet_id')
                 ->where('character_id', $model->character_id)
                 ->whereNotNull('schematic_id')
-                ->select('schematic_id', 'character_id', 'planet_id', DB::raw('COUNT(pin_id) as nbFactories'), DB::raw('MAX(last_cycle_start) as maxLastCycleStart'))
+                ->select('schematic_id', 'character_id', 'planet_id', DB::raw('COUNT(pin_id) as nbFactories'), DB::raw("MAX(str_to_date(last_cycle_start, '%Y-%m-%d %H:%i:%s')) as maxLastCycleStart"))
                 ->groupBy('schematic_id', 'character_id', 'planet_id');
         });
 
