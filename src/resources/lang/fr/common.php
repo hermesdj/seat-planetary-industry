@@ -5,20 +5,26 @@ return [
         'extractors' => 'Extracteurs',
         'factories' => 'Usines',
         'projects' => 'Projets',
-        'planets' => 'Planètes'
+        'planets' => 'Planètes',
+        'overview' => 'Résumé'
     ],
     'cycle' => [
         'quantity_header' => 'Qté/Cycle',
         'header' => 'Temps de Cycle',
         'time' => ':time Secondes',
-        'quantity_per_hour' => 'Qté/Heure'
+        'quantity_per_hour' => 'Qté/Heure',
+        'last_cycle_start' => 'Dernier Cycle',
+        'active' => 'Actif',
+        'not_active' => 'Non Actif',
+        'state' => 'Status'
     ],
     'factory' => [
         'headers' => [
             'tier' => 'Tier',
-            'consumes' => 'Consomme',
-            'produces' => 'Produit',
-            'factory' => 'Usine'
+            'consumes' => 'Consomme/Heure',
+            'produces' => 'Produit/Heure',
+            'factory' => 'Usine',
+            'quantity' => 'Quantité'
         ]
     ],
     'planet' => [

@@ -20,7 +20,21 @@
             @foreach($overview->fabrications as $fabrication)
                 <tr>
                     <td>
-                        @include('web::partials.type', ['type_id' => $fabrication->schematic->invtype->typeID, 'type_name' => ucwords($fabrication->schematic->schematic_name)])
+                        @if($fabrication->colonies->isEmpty())
+                            @include('web::partials.type', ['type_id' => $fabrication->schematic->invtype->typeID, 'type_name' => ucwords($fabrication->schematic->schematic_name)])
+                        @else
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                                   aria-expanded="false">
+                                    @include('web::partials.type', ['type_id' => $fabrication->schematic->invtype->typeID, 'type_name' => ucwords($fabrication->schematic->schematic_name)])
+                                </a>
+                                <div class="dropdown-menu">
+                                    <div>
+                                        @include('seat-pi::includes.modals.view_colonies', ['resource' => $fabrication->schematic->invtype, 'colonies' => $fabrication->colonies])
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </td>
                     <td class="text-center">{{$fabrication->tier->tier_id}}</td>
                     <td class="text-center">{{$fabrication->factoriesNeeded}}</td>

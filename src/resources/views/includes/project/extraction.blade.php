@@ -16,7 +16,19 @@
             @foreach($overview->extractions as $extraction)
                 <tr>
                     <td>
-                        @include('web::partials.type', ['type_id' => $extraction->resource->typeID, 'type_name' => ucwords($extraction->resource->typeName)])
+                        @if($extraction->colonies->isEmpty())
+                            @include('web::partials.type', ['type_id' => $extraction->resource->typeID, 'type_name' => ucwords($extraction->resource->typeName)])
+                        @else
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                               aria-expanded="false">
+                                @include('web::partials.type', ['type_id' => $extraction->resource->typeID, 'type_name' => ucwords($extraction->resource->typeName)])
+                            </a>
+                            <div class="dropdown-menu">
+                                <div>
+                                    @include('seat-pi::includes.modals.view_colonies', ['resource' => $extraction->resource, 'colonies' => $extraction->colonies])
+                                </div>
+                            </div>
+                        @endif
                     </td>
                     <td class="text-center">{{$extraction->extractionNeeded}}</td>
                     <td class="text-center">{{$extraction->actualExtraction}}</td>

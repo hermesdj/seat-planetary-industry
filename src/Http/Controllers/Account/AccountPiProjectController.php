@@ -23,8 +23,16 @@ class AccountPiProjectController extends Controller
     public function projects(): View|Factory|Application
     {
         $projects = AccountProject::where('user_id', Auth::user()->id)->get();
+        $overview = ProjectOverview::fromProjectList($projects);
+        $tiers = TierInfo::with('schematics')->get();
 
-        return view('seat-pi::account.projects', compact('projects'));
+        return view('seat-pi::account.projects',
+            compact(
+                'projects',
+                'overview',
+                'tiers'
+            )
+        );
     }
 
     public function createProject(AccountProjectValidation $request): RedirectResponse

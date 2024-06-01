@@ -5,20 +5,26 @@ return [
         'extractors' => 'Extractors',
         'factories' => 'Factories',
         'projects' => 'Projects',
-        'planets' => 'Planets'
+        'planets' => 'Planets',
+        'overview' => 'Overview'
     ],
     'cycle' => [
         'quantity_header' => 'Qty/Cycle',
         'header' => 'Cycle Time',
         'time' => ':time Seconds',
-        'quantity_per_hour' => 'Qty/Hour'
+        'quantity_per_hour' => 'Qty/Hour',
+        'last_cycle_start' => 'Last Cycle',
+        'active' => 'Active',
+        'not_active' => 'Not Active',
+        'state' => 'State'
     ],
     'factory' => [
         'headers' => [
             'tier' => 'Tier',
-            'consumes' => 'Consumes',
-            'produces' => 'Produces',
-            'factory' => 'Factory'
+            'consumes' => 'Consumes/Hours',
+            'produces' => 'Produces/Hours',
+            'factory' => 'Factory',
+            'quantity' => 'Quantity'
         ]
     ],
     'planet' => [

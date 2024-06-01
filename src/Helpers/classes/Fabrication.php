@@ -4,6 +4,7 @@ namespace HermesDj\Seat\SeatPlanetaryIndustry\Helpers\classes;
 
 use HermesDj\Seat\SeatPlanetaryIndustry\Models\Schematic;
 use HermesDj\Seat\SeatPlanetaryIndustry\Models\TierInfo;
+use Illuminate\Support\Collection;
 
 class Fabrication
 {
@@ -14,4 +15,6 @@ class Fabrication
     public float $productionNeeded = 0;
     public float $actualProduction = 0;
     public float $delta = 0;
+
+    public Collection $colonies;
 }

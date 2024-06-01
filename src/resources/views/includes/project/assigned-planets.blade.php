@@ -1,10 +1,5 @@
 <div class="card">
     <div class="card-header  d-flex align-items-center">
-        @isset($corporation)
-
-        @else
-
-        @endisset
         <button
                 type="button"
                 class="btn btn-primary mr-4"
@@ -34,9 +29,12 @@
                         @include('web::partials.character', ['character' => $colony->character])
                     </td>
                     <td>
-                        @include('web::partials.type', ['type_id' => $colony->planet->type->typeID, 'type_name' => ucwords($colony->planet->name)])
-                        &nbsp;
-                        ({{ucwords($colony->planet_type)}})
+                        <a href="#modalViewAssignedPlanet-{{$colony->id}}" data-toggle="modal"
+                           data-target="#modalViewAssignedPlanet-{{$colony->id}}">
+                            @include('web::partials.type', ['type_id' => $colony->planet->type->typeID, 'type_name' => ucwords($colony->planet->name)])
+                            &nbsp;
+                            ({{ucwords($colony->planet_type)}})
+                        </a>
                     </td>
                     <td class="text-right">
                         @isset($corporation)

@@ -4,11 +4,7 @@
 
 @section('seat-projects-right')
     @if(!isset($project))
-        <div class="row">
-            <div class="col-6 mx-auto text-center">
-                No Project Selected !
-            </div>
-        </div>
+        @include('seat-pi::account.overview')
     @else
         @include('seat-pi::includes.project.view')
     @endif

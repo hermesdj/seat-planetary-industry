@@ -2,6 +2,7 @@
 
 namespace HermesDj\Seat\SeatPlanetaryIndustry\Helpers\classes;
 
+use Illuminate\Support\Collection;
 use Seat\Eveapi\Models\Sde\InvType;
 
 class Extraction
@@ -10,4 +11,6 @@ class Extraction
     public float $extractionNeeded = 0;
     public float $actualExtraction = 0;
     public float $delta = 0;
+
+    public Collection $colonies;
 }

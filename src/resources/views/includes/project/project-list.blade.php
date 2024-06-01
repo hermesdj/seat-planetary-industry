@@ -1,4 +1,16 @@
 <div class="card">
+    <div class="list-group list-group-flush">
+        <a
+                href="{{isset($corporation) ? route('seat-pi::corporation-pi', ['corporation' => $corporation->corporation_id]) : route('seat-pi::account-pi-projects')}}"
+                class="list-group-item list-group-item-action @if(!isset($displayedProject)) active @endif"
+        >
+            <div class="d-flex w-100 justify-content-between">
+                <h6 class="mb-1">
+                    {{trans('seat-pi::common.menu.overview')}}
+                </h6>
+            </div>
+        </a>
+    </div>
     <div class="card-header d-flex align-items-center">
         @isset($corporation)
             @can('corporation.manage_pi_projects', $corporation)

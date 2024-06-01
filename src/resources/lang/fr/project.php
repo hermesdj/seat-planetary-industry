@@ -20,6 +20,11 @@ return [
     ],
     'assigned_planets' => [
         'title' => 'Planètes Assignées',
+        'table' => [
+            'headers' => [
+                'is_active' => 'Is Active'
+            ]
+        ],
         'modals' => [
             'assign' => [
                 'title' => 'Assigner une Planète'

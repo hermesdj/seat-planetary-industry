@@ -1,0 +1,4 @@
+- Compute "Real" planet production based on current extraction
+- add modal window to check what planet is producing a ressource in the projet view 
+- Add overview
+- See who is not managing his planets to be able to remove more easily from project

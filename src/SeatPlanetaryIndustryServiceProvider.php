@@ -10,6 +10,7 @@ use HermesDj\Seat\SeatPlanetaryIndustry\Models\Projects\Planet\AccountAssignedPl
 use HermesDj\Seat\SeatPlanetaryIndustry\Models\Projects\Planet\CorporationAssignedPlanet;
 use HermesDj\Seat\SeatPlanetaryIndustry\Models\Schematic;
 use HermesDj\Seat\SeatPlanetaryIndustry\Models\TierInfo;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Seat\Eveapi\Models\Character\CharacterInfo;
 use Seat\Eveapi\Models\PlanetaryInteraction\CharacterPlanet;
@@ -138,6 +139,14 @@ class SeatPlanetaryIndustryServiceProvider extends AbstractSeatPlugin
 
         CharacterPlanetPin::resolveRelationUsing('colony', function (CharacterPlanetPin $model) {
             return $model->hasOne(CharacterPlanet::class, 'planet_id', 'planet_id');
+        });
+
+        CharacterPlanet::resolveRelationUsing('factories', function (CharacterPlanet $model) {
+            return $model->hasMany(CharacterPlanetPin::class, 'planet_id', 'planet_id')
+                ->where('character_id', $model->character_id)
+                ->whereNotNull('schematic_id')
+                ->select('schematic_id', 'character_id', 'planet_id', DB::raw('COUNT(pin_id) as nbFactories'), DB::raw('MAX(last_cycle_start) as maxLastCycleStart'))
+                ->groupBy('schematic_id', 'character_id', 'planet_id');
         });
 
         InvType::resolveRelationUsing('pi_tier', function (InvType $model) {

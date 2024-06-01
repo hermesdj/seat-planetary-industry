@@ -27,7 +27,16 @@ class CorpPlanetaryIndustryController extends Controller
     public function corporationPiHome(CorporationInfo $corporation): View|Factory|Application
     {
         $projects = CorporationProject::where('corporation_id', $corporation->corporation_id)->get();
-        return view('seat-pi::corporation.home', compact('corporation', 'projects'));
+        $overview = ProjectOverview::fromProjectList($projects);
+        $tiers = TierInfo::with('schematics')->get();
+        return view('seat-pi::corporation.home',
+            compact(
+                'corporation',
+                'projects',
+                'overview',
+                'tiers'
+            )
+        );
     }
 
     public function viewProject(CorporationInfo $corporation, CorporationProject $project): View|Factory|Application
