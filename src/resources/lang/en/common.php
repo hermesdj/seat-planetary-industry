@@ -46,6 +46,10 @@ return [
         'remove' => [
             'title' => 'Confirm Remove ?',
             'notice' => 'Removing this object cannot be undone, do you confirm ?'
+        ],
+        'unassign' => [
+            'title' => 'Unassign Planet',
+            'notice' => 'Unassigning this planet cannot be undone, do you confirm ?'
         ]
     ]
 ];

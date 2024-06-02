@@ -41,7 +41,8 @@
                                 ])
                                 @include('seat-pi::includes.partials.actions.remove_btn', [
                                     'route' => route('seat-pi::remove-corp-pi-project-objective', ['corporation' => $corporation->corporation_id, 'project' => $project->id, 'schematic_id' => $objective->schematic_id]),
-                                    'tooltip' => trans('seat-pi::project.objectives.modals.delete.btn')
+                                    'tooltip' => trans('seat-pi::project.objectives.modals.delete.btn'),
+                                    'dataTarget' => '#modalConfirmRemoveObject'
                                 ])
                             @endcan
                         @else
@@ -52,7 +53,8 @@
                             ])
                             @include('seat-pi::includes.partials.actions.remove_btn', [
                                 'route' => route('seat-pi::remove-project-objective', ['project' => $project->id, 'schematic_id' => $objective->schematic_id]),
-                                'tooltip' => trans('seat-pi::project.objectives.modals.delete.btn')
+                                'tooltip' => trans('seat-pi::project.objectives.modals.delete.btn'),
+                                'dataTarget' => '#modalConfirmRemoveObject'
                             ])
                         @endisset
                     </td>

@@ -1,28 +1,27 @@
 $(document).ready(function () {
-    const modalDelete = $('#modalConfirmRemoveObject');
-
     $('button.pi-remove-btn').on('click', function (e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
         const route = $(this).attr('data-route');
         const title = $(this).attr('data-modal-title');
         const notice = $(this).attr('data-modal-notice');
+        const target = $(this).attr('data-target');
 
         if (route) {
-            $('#formDelete').attr('action', route);
+            $('#formUnassign').attr('action', route);
 
             if (title) {
-                $('#removeModalTitle').text(title);
+                $('#unassignModalTitle').text(title);
             }
             if (notice) {
-                $('#removeModalNotice').text(notice);
+                $('#unassignModalNotice').text(notice);
             }
 
-            modalDelete.modal('show');
+            $(target).modal('show');
+        } else {
+            console.warn('No route found !');
         }
     });
-
-    const modalEditObjective = $('#modalEditObjective');
 
     $('button.pi-edit-objective-btn').on('click', function (e) {
         e.stopPropagation();
@@ -30,13 +29,17 @@ $(document).ready(function () {
         const route = $(this).attr('data-route');
         const targetQuantity = $(this).attr('data-target-quantity');
         const schematicId = $(this).attr('data-schematic-id');
+        const target = $(this).attr('data-target');
+        console.log(target);
 
         if (route) {
             $('#formEditObjective').attr('action', route);
             $('#edit_current_quantity').val(targetQuantity);
             $('#edit_schematic_id').val(schematicId);
 
-            modalEditObjective.modal('show');
+            $(target).modal('show');
+        } else {
+            console.warn('No route found !');
         }
     });
 });

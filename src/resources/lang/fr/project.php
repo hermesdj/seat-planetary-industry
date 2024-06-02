@@ -31,7 +31,7 @@ return [
             ],
             'unassign' => [
                 'title' => 'Désassigner une Planète',
-                'notice' => 'Cela va désassigner cette planète du projet',
+                'notice' => 'Cela va désassigner la planète :name de :character du projet',
                 'tooltip' => 'Désassigner le Planète'
             ]
         ],

@@ -1,8 +1,13 @@
+@php
+    if(!isset($cssClass)) {
+        $cssClass = '';
+    }
+@endphp
 <button
         type="button"
         data-toggle="modal"
-        data-target="#modalConfirmRemoveObject"
-        class="btn btn-sm btn-link pi-remove-btn"
+        data-target="{{$dataTarget}}"
+        class="btn btn-sm btn-link {{$cssClass}}"
         data-route="{{$route}}"
         @isset($title)
             data-modal-title="{{$title}}"

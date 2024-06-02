@@ -12,6 +12,7 @@
                                 'tooltip' => trans('seat-pi::project.modals.delete.tooltip'),
                                 'title' => trans('seat-pi::project.modals.delete.title'),
                                 'notice' => trans('seat-pi::project.modals.delete.notice'),
+                                'dataTarget' => '#modalConfirmRemoveObject'
                             ])
                         @endcan
                     @else
@@ -21,6 +22,7 @@
                             'tooltip' => trans('seat-pi::project.modals.delete.tooltip'),
                             'title' => trans('seat-pi::project.modals.delete.title'),
                             'notice' => trans('seat-pi::project.modals.delete.notice'),
+                            'dataTarget' => '#modalConfirmRemoveObject'
                         ])
                     @endisset
                 </div>

@@ -46,6 +46,10 @@ return [
         'remove' => [
             'title' => 'Confirmer la suppression ?',
             'notice' => 'Supprimer cet objet ne peut pas être annulé, êtes-vous sûr ?'
+        ],
+        'unassign' => [
+            'title' => 'Confirmer le retrait ?',
+            'notice' => 'Retirer cette planète ne peut pas être annulé, êtes-vous sûr ?'
         ]
     ]
 ];

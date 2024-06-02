@@ -43,8 +43,10 @@
                                     'route' => route('seat-pi::unassign-corp-pi-project-planet', ['corporation' => $corporation->corporation_id, 'project' => $project->id, 'planet' => $colony->id]),
                                     'tooltip' => trans('seat-pi::project.assigned_planets.modals.unassign.tooltip'),
                                     'title' => trans('seat-pi::project.assigned_planets.modals.unassign.title'),
-                                    'notice' => trans('seat-pi::project.assigned_planets.modals.unassign.notice'),
-                                    'icon' => 'fa-minus-square text-warning'
+                                    'notice' => trans('seat-pi::project.assigned_planets.modals.unassign.notice', ['name' => $colony->planet->name, 'character' => $colony->character->name]),
+                                    'icon' => 'fa-minus-square text-warning',
+                                    'dataTarget' => '#modalConfirmUnassignPlanet',
+                                    'cssClass' => 'pi-remove-btn'
                                 ])
                             @endcan
                         @else
@@ -52,8 +54,10 @@
                                 'route' => route('seat-pi::remove-assigned-planet', ['project' => $project->id, 'planet' => $colony->id]),
                                 'tooltip' => trans('seat-pi::project.assigned_planets.modals.unassign.tooltip'),
                                 'title' => trans('seat-pi::project.assigned_planets.modals.unassign.title'),
-                                'notice' => trans('seat-pi::project.assigned_planets.modals.unassign.notice'),
-                                'icon' => 'fa-minus-square text-warning'
+                                'notice' => trans('seat-pi::project.assigned_planets.modals.unassign.notice', ['name' => $colony->planet->name, 'character' => $colony->character->name]),
+                                'icon' => 'fa-minus-square text-warning',
+                                'dataTarget' => '#modalConfirmUnassignPlanet',
+                                'cssClass' => 'pi-remove-btn'
                             ])
                         @endisset
                     </td>

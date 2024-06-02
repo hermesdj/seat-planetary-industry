@@ -1,7 +1,7 @@
 <button
         type="button"
         data-toggle="modal"
-        data-target="#modalEditProjectObjective"
+        data-target="#modalEditObjective"
         class="btn btn-sm btn-link pi-edit-objective-btn"
         data-route="{{$route}}"
         data-target-quantity="{{$targetQuantity}}"
