@@ -5,7 +5,6 @@
 @endphp
 <button
         type="button"
-        data-toggle="modal"
         data-target="{{$dataTarget}}"
         class="btn btn-sm btn-link {{$cssClass}}"
         data-route="{{$route}}"
@@ -15,6 +14,7 @@
         @isset($notice)
             data-modal-notice="{{$notice}}"
         @endisset
+        onclick="execRemoveBtn('{{$dataTarget}}', '{{$route}}', @if(isset($title)) '{{$title}}' @else null @endif, @if(isset($notice)) '{{$notice}}' @else null @endif)"
 >
     @isset($icon)
         <i class="fas {{$icon}}" data-toggle="tooltip" data-placement="top"

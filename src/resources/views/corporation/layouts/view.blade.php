@@ -13,5 +13,4 @@
         </div>
     </div>
     @include('seat-pi::includes.modals.confirm_remove')
-    @include('seat-pi::includes.modals.confirm_unassign')
 @stop

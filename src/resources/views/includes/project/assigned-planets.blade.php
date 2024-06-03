@@ -67,6 +67,7 @@
         </table>
     </div>
 </div>
+@include('seat-pi::includes.modals.confirm_unassign')
 @isset($corporation)
     @include('seat-pi::includes.modals.assign_planet', [
         'route' => route('seat-pi::assign-corp-pi-project-planet', ['corporation' => $corporation->corporation_id, 'project' => $project->id])
