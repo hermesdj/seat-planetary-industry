@@ -10,7 +10,6 @@
                 <th>{{trans('web::seat.planet')}}</th>
                 <th>{{ trans('seat-pi::common.factory.headers.factory') }}</th>
                 <th>{{ trans('seat-pi::common.factory.headers.tier') }}</th>
-                <th>{{ trans('seat-pi::common.factory.headers.consumes') }}</th>
                 <th>{{ trans('seat-pi::common.factory.headers.produces') }}</th>
                 <th>{{ trans('seat-pi::common.cycle.header') }}</th>
             </tr>
@@ -38,8 +37,7 @@
                     <td>
                         {{$factory->schematic->tier->tier_id}}
                     </td>
-                    <td>{{$factory->nbFactories * $factory->schematic->tier->quantity_consumed}}</td>
-                    <td>{{$factory->nbFactories * $factory->schematic->tier->quantity_produced}}</td>
+                    <td>{{$factory->nbFactories * $factory->schematic->tier->quantity_produced * (3600 / $factory->schematic->cycle_time)}}</td>
                     <td>{{trans('seat-pi::common.cycle.time', ['time' => $factory->schematic->cycle_time])}}</td>
                 </tr>
             @endforeach

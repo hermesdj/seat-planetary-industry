@@ -16,21 +16,12 @@ class CreateTierInfoTable extends Migration
             $table->integer('tier_id');
             $table->integer('market_group_id');
             $table->integer('quantity_produced');
-
-            $table->foreign('market_group_id')
-                ->references('marketGroupID')
-                ->on('invTypes')
-                ->noActionOnDelete();
-
             $table->primary('tier_id');
         });
     }
 
     public function down(): void
     {
-        Schema::table('pi_tier_infos', function (Blueprint $table) {
-            $table->dropForeign('pi_tier_infos_market_group_id_foreign');
-        });
         Schema::drop('pi_tier_infos');
         Schema::table('invTypes', function (Blueprint $table) {
             $table->dropIndex('inv_types_market_group_idx');
