@@ -4,8 +4,14 @@
 
 @push('javascript')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             let table = $('#storageTable').DataTable();
+
+            // Initially sort the 5th column in descending order.
+            //
+            // Note: Since the table is 0-indexed, the 5th column is at index 4.
+            // Note: Since the class `datatable` is used, the table is already initialized as a DataTable and you cannot use the `order` method directly.
+            table.order([4, 'desc']).draw();
 
             function filterTable() {
                 let showStorageFacility = $('#storageFacility').is(':checked');
