@@ -32,6 +32,7 @@ class AccountPlanetaryIndustryController extends Controller
             ->select('schematic_id', 'character_id', 'planet_id', DB::raw('COUNT(pin_id) as nbFactories'))
             ->groupBy('schematic_id', 'character_id', 'planet_id')
             ->get();
+
         return view('seat-pi::account.factories', compact('factories'));
     }
 
@@ -41,5 +42,20 @@ class AccountPlanetaryIndustryController extends Controller
             ->get();
 
         return view('seat-pi::account.planets', compact('planets'));
+    }
+
+    public function storage(): View|Factory|Application
+    {
+        $containerIds = [
+            2541, 2536, 2257, 2558, 2535, 2560, 2561, 2562, // Storage Facility
+            2544, 2543, 2552, 2555, 2542, 2556, 2557, 2256  // Launch Pad
+        ];
+
+        $containers = CharacterPlanetPin::whereIn('character_id', auth()->user()->associatedCharacterIds())
+            ->whereIn('type_id', $containerIds)
+            ->select('character_id', 'planet_id', 'type_id', 'pin_id')
+            ->get();
+
+        return view('seat-pi::account.storage', compact('containers'));
     }
 }

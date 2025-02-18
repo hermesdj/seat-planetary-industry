@@ -23,10 +23,17 @@ return [
         'highlight_view' => 'planets'
     ],
     [
+        'name' => 'storage',
+        'label' => 'seat-pi::common.menu.storage',
+        'route' => 'seat-pi::account-pi-storage',
+        'permission' => 'character.planetary',
+        'highlight_view' => 'storage'
+    ],
+    [
         'name' => 'projects',
         'label' => 'seat-pi::common.menu.projects',
         'route' => 'seat-pi::account-pi-projects',
         'permission' => 'character.planetary',
         'highlight_view' => 'projects'
-    ]
+    ],
 ];

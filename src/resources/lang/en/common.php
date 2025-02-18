@@ -3,6 +3,7 @@
 return [
     'menu' => [
         'extractors' => 'Extractors',
+        'storage' => 'Storage',
         'factories' => 'Factories',
         'projects' => 'Projects',
         'planets' => 'Planets',
@@ -34,6 +35,15 @@ return [
         ],
         'assignedToCorp' => 'Planet is assigned to corporation :corp project :name !',
         'assignedTo' => 'This planet is assigned to your personal project :name'
+    ],
+    'storage' => [
+        'headers' => [
+            'storage' => 'Storage',
+            'capacity' => 'Capacity',
+            'used_capacity' => 'Used Capacity',
+            'progress' => 'Progress',
+            'contents' => 'Contents',
+        ]
     ],
     'btns' => [
         'cancel' => 'Cancel',

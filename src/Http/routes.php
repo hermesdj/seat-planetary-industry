@@ -19,6 +19,9 @@ Route::group([
     Route::get('/planets')
         ->name('seat-pi::account-pi-planets')
         ->uses('AccountPlanetaryIndustryController@planets');
+    Route::get('/storage')
+        ->name('seat-pi::account-pi-storage')
+        ->uses('AccountPlanetaryIndustryController@storage');
 
     // Projects
     Route::group([
