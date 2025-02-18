@@ -33,17 +33,23 @@
                             <td>{{ $colony->upgrade_level }}</td>
                             <td>
                                 @include('web::partials.type', ['type_id' => $extractor->product->typeID, 'type_name' => $extractor->product->typeName])
+                                <a class="float-right" href="{{ route('seat-pi::account-pi-templates', [
+                                    'characterId' => $character->character_id,
+                                    'commandCenterLevel' => $colony->upgrade_level,
+                                    'resourceTypeId' => $extractor->product->typeID,
+                                    'planetId' => $colony->planet->planet_id,
+                                    'planetTypeId' => $colony->planet->type->typeID,
+                                    'factories' => 10]) }}"><i class="fas fa-file-code"></i></a>
                             </td>
                             <td>
-                                <div
-                                        class="countdown-progressbar"
-                                        data-expiry-time="{{$extractor->pin->expiry_time}}"
-                                        data-install-time="{{ $extractor->pin->install_time }}"
+                                <div class="countdown-progressbar"
+                                    data-expiry-time="{{$extractor->pin->expiry_time}}"
+                                    data-install-time="{{ $extractor->pin->install_time }}"
                                 ></div>
                             </td>
                             <td>
                                 <div class="countdown"
-                                     data-expiry-time="{{ $extractor->pin->expiry_time }}">
+                                    data-expiry-time="{{ $extractor->pin->expiry_time }}">
                                     {{ $extractor->pin->expiry_time }}
                                 </div>
                             </td>
