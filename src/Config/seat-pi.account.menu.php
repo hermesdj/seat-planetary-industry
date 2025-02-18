@@ -28,5 +28,12 @@ return [
         'route' => 'seat-pi::account-pi-projects',
         'permission' => 'character.planetary',
         'highlight_view' => 'projects'
-    ]
+    ],
+    [
+        'name' => 'storage',
+        'label' => 'seat-pi::common.menu.storage',
+        'route' => 'seat-pi::account-pi-storage',
+        'permission' => 'character.planetary',
+        'highlight_view' => 'storage'
+    ],
 ];

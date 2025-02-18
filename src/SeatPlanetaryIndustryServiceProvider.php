@@ -129,6 +129,11 @@ class SeatPlanetaryIndustryServiceProvider extends AbstractSeatPlugin
                 ->withDefault();
         });
 
+        CharacterPlanetContent::resolveRelationUsing('type', function (CharacterPlanetContent $model) {
+            return $model->hasOne(InvType::class, 'typeID', 'type_id')
+                ->withDefault();
+        });
+
         CharacterPlanetPin::resolveRelationUsing('schematic', function (CharacterPlanetPin $model) {
             return $model->hasOne(Schematic::class, 'schematic_id', 'schematic_id');
         });
@@ -139,6 +144,15 @@ class SeatPlanetaryIndustryServiceProvider extends AbstractSeatPlugin
 
         CharacterPlanetPin::resolveRelationUsing('colony', function (CharacterPlanetPin $model) {
             return $model->hasOne(CharacterPlanet::class, 'planet_id', 'planet_id');
+        });
+
+        CharacterPlanetPin::resolveRelationUsing('contents', function (CharacterPlanetPin $model) {
+            return $model->hasMany(CharacterPlanetContent::class, 'pin_id', 'pin_id');
+        });
+
+        CharacterPlanetPin::resolveRelationUsing('type', function (CharacterPlanetPin $model) {
+            return $model->hasOne(InvType::class, 'typeID', 'type_id')
+                ->withDefault();
         });
 
         CharacterPlanet::resolveRelationUsing('factories', function (CharacterPlanet $model) {
