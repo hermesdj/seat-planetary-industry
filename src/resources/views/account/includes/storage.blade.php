@@ -13,6 +13,12 @@
         </div>
     </div>
     <div class="card-body">
+        <div id="warningMessage" class="alert alert-warning alert-dismissible fade show d-none" role="alert">
+            {!! trans('seat-pi::common.storage.messages.warning') !!}
+            <button type="button" class="close" data-dismiss="alert" aria-label="{{ trans('seat-pi::common.btns.close') }}">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <table class="table datatable table-sm table-condensed table-striped table-hover" id="storageTable">
             <thead>
             <tr>

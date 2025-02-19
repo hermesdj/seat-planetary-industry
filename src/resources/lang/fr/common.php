@@ -43,11 +43,15 @@ return [
             'used_capacity' => 'Capacité Utilisée',
             'progress' => 'Progrès',
             'contents' => 'Contenu',
+        ],
+        "messages" => [
+            "warning" => "<strong>Attention:</strong> Le a mise à jour des contenus des planètes sont restreints par les intervalles de mise à jours avec l'API de EVE ce qui peut entraîner un délai entre les données en jeu et les données représentées içi. De plus, les données de quantité sur les planètes d'Industrie Planétaire récupérées par cette API  ne sont pas connue pour être fiable, ce qui peut expliquer des anomalies observées avec les données en jeu et sur SeAT."
         ]
     ],
     'btns' => [
         'cancel' => 'Annuler',
-        'submit' => 'Envoyer'
+        'submit' => 'Envoyer',
+        'close' => 'Fermer',
     ],
     'table' => [
         'actions' => 'Actions'

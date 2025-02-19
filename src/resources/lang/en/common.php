@@ -43,11 +43,15 @@ return [
             'used_capacity' => 'Used Capacity',
             'progress' => 'Progress',
             'contents' => 'Contents',
+        ],
+        "messages" => [
+            "warning" => "<strong>Be advised:</strong> Storage container updates are restricted by EVE Online's update intervals and ESI schedules, which may cause delays in reflecting the latest contents. Additionally, data retrieved regarding quantities may possibly be unreliable due to ESI."
         ]
     ],
     'btns' => [
         'cancel' => 'Cancel',
-        'submit' => 'Submit'
+        'submit' => 'Submit',
+        'close' => 'Close',
     ],
     'table' => [
         'actions' => 'Actions'
