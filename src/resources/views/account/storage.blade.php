@@ -5,6 +5,21 @@
 @push('javascript')
     <script>
         $(document).ready(function() {
+            const warningKey = "storageWarningDismissed";
+            const dismissDuration = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+            const now = new Date().getTime();
+
+            // Check if warning was dismissed and if 7 days have passed
+            const lastDismissed = localStorage.getItem(warningKey);
+            if (!lastDismissed || now - lastDismissed > dismissDuration) {
+                $("#warningMessage").removeClass("d-none");
+            }
+
+            // Handle close button click
+            $("#warningMessage .close").click(function () {
+                localStorage.setItem(warningKey, now);
+            });
+
             let table = $('#storageTable').DataTable();
 
             // Initially sort the 5th column in descending order.
