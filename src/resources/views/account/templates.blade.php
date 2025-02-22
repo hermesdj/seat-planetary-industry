@@ -890,7 +890,7 @@
             $('#downloadButton').on('click', onDownloadHandler);
 
             // Fire once when the page loads.
-            highlightTableRow({{ request()->get('characterId') }}, {{ request()->get('planetId') }});
+            highlightTableRow({{ request()->get('characterId') ?? 'null' }}, {{ request()->get('planetId') ?? 'null' }});
             updateConfigurator();
             updateConfiguratorConsumption();
         });
