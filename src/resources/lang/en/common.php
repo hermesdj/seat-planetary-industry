@@ -7,6 +7,7 @@ return [
         'factories' => 'Factories',
         'projects' => 'Projects',
         'planets' => 'Planets',
+        'templates' => 'Templates',
         'overview' => 'Overview'
     ],
     'cycle' => [
@@ -25,6 +26,7 @@ return [
             'consumes' => 'Consumes/Hours',
             'produces' => 'Produces/Hours',
             'factory' => 'Factory',
+            'factory_pins' => 'Pins',
             'quantity' => 'Quantity'
         ]
     ],

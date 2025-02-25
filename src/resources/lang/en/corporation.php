@@ -29,6 +29,6 @@ return [
         ]
     ],
     'page' => [
-        'title' => ':name corp PI'
+        'title' => ':name Planetary Interaction',
     ]
 ];

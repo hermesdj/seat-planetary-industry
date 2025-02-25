@@ -36,4 +36,11 @@ return [
         'permission' => 'character.planetary',
         'highlight_view' => 'projects'
     ],
+    [
+        'name' => 'templates',
+        'label' => 'seat-pi::common.menu.templates',
+        'route' => 'seat-pi::account-pi-templates',
+        'permission' => 'character.planetary',
+        'highlight_view' => 'templates'
+    ]
 ];

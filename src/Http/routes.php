@@ -22,6 +22,9 @@ Route::group([
     Route::get('/storage')
         ->name('seat-pi::account-pi-storage')
         ->uses('AccountPlanetaryIndustryController@storage');
+    Route::get('/templates')
+        ->name('seat-pi::account-pi-templates')
+        ->uses('AccountPlanetaryIndustryController@templates');
 
     // Projects
     Route::group([

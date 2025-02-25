@@ -9,6 +9,7 @@
                 <th>{{trans_choice('web::seat.character', 2)}}</th>
                 <th>{{trans('web::seat.planet')}}</th>
                 <th>{{ trans('seat-pi::common.factory.headers.factory') }}</th>
+                <th>{{ trans('seat-pi::common.factory.headers.factory_pins') }}</th>
                 <th>{{ trans('seat-pi::common.factory.headers.tier') }}</th>
                 <th>{{ trans('seat-pi::common.factory.headers.produces') }}</th>
                 <th>{{ trans('seat-pi::common.cycle.header') }}</th>
@@ -27,12 +28,11 @@
                             ({{ucwords($factory->colony->planet_type)}})
                         @endif
                     </td>
-                    <td>
-                        {{$factory->nbFactories}}x&nbsp;
-                        <img alt="Item image"
-                             src="https://images.evetech.net/types/{{$factory->schematic->type_id}}/icon?size=32"/>
-
-                        {{$factory->schematic->invType->typeName}} {{ trans('seat-pi::common.factory.headers.factory') }}
+                    <td data-order={{ $factory->schematic->invType->typeName }}>
+                        @include('web::partials.type', ['type_id' => $factory->schematic->type_id, 'type_name' => $factory->schematic->invType->typeName]) {{ trans('seat-pi::common.factory.headers.factory') }}
+                    </td>
+                    <td data-order="{{ $factory->nbFactories }}">
+                        {{$factory->nbFactories}}x
                     </td>
                     <td>
                         {{$factory->schematic->tier->tier_id}}
