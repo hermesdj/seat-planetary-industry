@@ -41,14 +41,18 @@
                     </td>
                     <td>
                         @php
-                            $contents = $colony->contents->groupBy(function($item) {
-                                return $item->product->typeID;
-                            })->all();
+                            $contents = $colony->contents
+                                ->sortBy('type.typeName')
+                                ->sortBy(function($content) {
+                                    return $content->type->pi_tier->tier_id . $content->type->typeName;
+                                })
+                                ->groupBy('product.typeID');
                         @endphp
                         @foreach($contents as $typeID => $content)
                             @if(!$content->isEmpty())
                                 @include('web::partials.type', ['type_id' => $typeID, 'type_name' => ucwords($content->get(0)->product->typeName)])
                                 <b>{{number_format($content->sum('amount'))}}</b>
+                                <small>(P{{ $content->get(0)->type->pi_tier->tier_id }})</small>
                                 <br/>
                             @endif
                         @endforeach
