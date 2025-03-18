@@ -84,11 +84,17 @@
                         </div>
                     </td>
                     <td>
-                    @foreach($container->contents as $content)
+                    @php
+                        $contents = $container->contents->sortBy(function($content) {
+                            return $content->type->pi_tier->tier . $content->type->typeName;
+                        });
+                    @endphp
+                    @foreach($contents as $content)
                         @include('web::partials.type', [
                             'type_id' => $content->type_id,
                             'type_name' => $content->type->typeName
                         ])
+                        <small>(P{{ $content->type->pi_tier->tier_id }})</small>
                     @endforeach
                     </td>
                 </tr>

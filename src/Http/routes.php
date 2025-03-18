@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'middleware' => ['web', 'auth', 'locale'],
-    'prefix' => '/pi',
+    'prefix' => '/characters/pi',
     'namespace' => 'HermesDj\Seat\SeatPlanetaryIndustry\Http\Controllers\Account'
 ], function () {
-    Route::get('/')
+    Route::get('/home')
         ->name('seat-pi::account-pi-home')
         ->uses('AccountPlanetaryIndustryController@home');
     Route::get('/extractors')
