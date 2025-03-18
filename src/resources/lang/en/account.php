@@ -6,8 +6,8 @@ return [
         'label' => 'Account PI',
     ],
     'page' => [
-        'header' => 'Account Planetary Interaction',
-        'title' => 'Account Planetary Interaction'
+        'header' => 'Planetary Interaction',
+        'title' => 'Planetary Interaction'
     ],
     'modals' => [
         'create' => [
