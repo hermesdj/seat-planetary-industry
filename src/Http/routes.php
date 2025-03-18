@@ -85,10 +85,10 @@ Route::group([
 
 Route::group([
     'middleware' => ['web', 'auth', 'locale'],
-    'prefix' => '/corp-pi',
+    'prefix' => '/corporations/pi',
     'namespace' => 'HermesDj\Seat\SeatPlanetaryIndustry\Http\Controllers\Corporation'
 ], function () {
-    Route::get('/')
+    Route::get('/home')
         ->name('seat-pi::corporation-pi-home')
         ->uses('CorpPlanetaryIndustryController@home');
 
